@@ -49,8 +49,8 @@
   #clock {
     grid-column: 2; grid-row: 1; justify-self: end; text-align: right; line-height: 1.1;
   }
-  #time { font-size: clamp(22px, 7vh, 48px); font-weight: 300; font-variant-numeric: tabular-nums; }
-  #date { font-size: clamp(11px, 2.6vh, 17px); color: var(--dim); letter-spacing: .06em; text-transform: uppercase; }
+  #time { font-size: clamp(30px, 10vh, 64px); font-weight: 400; font-variant-numeric: tabular-nums; }
+  #date { font-size: clamp(22px, 5.2vh, 34px); color: #b8b8b8; letter-spacing: .04em; margin-top: .4vh; text-transform: uppercase; }
 
   /* Gauge */
   #gaugeWrap {
@@ -232,7 +232,8 @@
     }
     last = p;
     let mph = ms * MS_TO_MPH;
-    if (mph < 1) mph = 0;               // kill GPS jitter when stationary
+    const SPEED_OFFSET = 2;             // add 2 mph while moving to match the car's speedometer
+    mph = mph < 1 ? 0 : mph + SPEED_OFFSET; // 0 when stationary (also kills GPS jitter)
     shown = shown ? shown * 0.3 + mph * 0.7 : mph;  // light smoothing
     if (mph === 0) shown = 0;
     render(shown);
